@@ -45,6 +45,7 @@ public:
 		name = new char[strlen(buf) + 1];
 		strcpy_s(name, strlen(buf) + 1, buf);
 	}
+
 	~Book() {
 		cout << "Destructor\n";
 		delete[]name;
@@ -117,6 +118,28 @@ public:
 	{
 		cout << "pages : " << name1 << endl;
 	}
+	void operator() ()
+	{
+		cout << name1 << "\t" << num << endl;
+	}
+	Student& operator=(const Student& obj)
+	{
+		if (this == &obj)
+		{
+			return *this;
+		}
+		if (name1 != nullptr)
+		{
+			//delete[] name;
+			this->~Student();
+		}
+		// глубокое копирование 
+		name1 = new char[strlen(obj.name1) + 1];
+		strcpy_s(name1, strlen(obj.name1) + 1, obj.name1);
+		num = obj.num;
+
+		return *this;
+	}
 	~Student() {
 		cout << "Destructor\n";
 		delete[]name1;
@@ -147,8 +170,14 @@ public:
 		}
 		return temp;
 	}
-
-
+	char operator[](int index)
+	{
+		if (index >= 0 && index < strlen(name1))
+		{
+			return name1[index];
+		}
+		return '\0';
+	}
 };
 
 int main()
